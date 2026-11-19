@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Falkeblik | Keiser Electric</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#627043">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Falkeblik">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23627043'/%3E%3Cpath d='M18 4L8 18h7l-2 10 11-15h-7z' fill='white'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<style>
+  .fb{min-height:100vh;display:flex;align-items:center;padding:24px 16px;background:var(--green-3);color:#fff}
+  .fb .kort{max-width:440px;margin:0 auto;width:100%}
+  .fb h1{font-family:var(--head);font-size:44px;line-height:1;margin:6px 0 12px;color:#fff}
+  .fb p{color:#e9ecdf;font-size:17px;line-height:1.5}
+  .fb .eyebrow{color:#cfd6bd;letter-spacing:.08em;text-transform:uppercase;font-size:13px;font-weight:600}
+  .fb .status{display:flex;gap:12px;align-items:center;margin:24px 0;font-weight:500}
+  .fb .prik{width:12px;height:12px;border-radius:50%;background:#cfd6bd;flex:none;animation:puls 1.2s infinite}
+  .fb .prik.fejl{background:#e8a33d;animation:none}
+  @keyframes puls{50%{opacity:.3}}
+  .fb .knap{display:inline-block;min-height:48px;padding:13px 22px;border-radius:10px;background:#fff;color:var(--green-3);font-weight:600;text-decoration:none;border:0;font-size:16px;cursor:pointer}
+  .fb .lille{font-size:14px;color:#cfd6bd;margin-top:28px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="fb">
+  <div class="kort">
+    <p class="eyebrow">Keiser Electric · testversion</p>
+    <h1>Falkeblik</h1>
+    <p>Overblik over sager, kalender og faktura – klaret med stemmen.</p>
+    <div class="status" role="status" aria-live="polite">
+      <span class="prik" id="prik"></span><span id="tekst">Åbner Falkeblik …</span>
+    </div>
+    <div id="fejl" hidden>
+      <p>Testversionen kører fra Louises computer, og den er ikke tændt lige nu. Prøv igen om lidt, eller giv Louise et praj.</p>
+      <p><button class="knap" type="button" id="igen">Prøv igen</button></p>
+    </div>
+    <p class="lille">Tip: Læg denne side på din hjemmeskærm (Del → Føj til hjemmeskærm). Så åbner Falkeblik altid den rigtige adresse.</p>
+  </div>
+</main>
+<script>
+(function () {
+  var prik = document.getElementById('prik'), tekst = document.getElementById('tekst'), fejl = document.getElementById('fejl');
+  function visFejl() { prik.className = 'prik fejl'; tekst.textContent = 'Falkeblik er ikke startet'; fejl.hidden = false; }
+  function hentAdresse(cb) {
+    // Hent altid den nyeste adresse uden browserens cache
+    var s = document.createElement('script');
+    s.src = 'adresse.js?t=' + Date.now();
+    s.onload = function () { cb(window.FALKEBLIK_URL || ''); };
+    s.onerror = function () { cb(''); };
+    document.head.appendChild(s);
+  }
+  function proev() {
+    prik.className = 'prik'; tekst.textContent = 'Åbner Falkeblik …'; fejl.hidden = true;
+    hentAdresse(function (url) {
+      if (!/^https:\/\/[a-z0-9-]+\.trycloudflare\.com\/?$/i.test(url)) { visFejl(); return; }
+      url = url.replace(/\/$/, '');
+      var faerdig = false, timer = setTimeout(function () { if (!faerdig) { faerdig = true; visFejl(); } }, 8000);
+      fetch(url + '/api/health', { mode: 'cors', cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { if (faerdig) return; faerdig = true; clearTimeout(timer); if (j && j.status === 'ok') location.replace(url + '/'); else visFejl(); })
+        .catch(function () { if (faerdig) return; faerdig = true; clearTimeout(timer); visFejl(); });
+    });
+  }
+  document.getElementById('igen').addEventListener('click', proev);
+  proev();
+})();
+</script>
+</body>
+</html>

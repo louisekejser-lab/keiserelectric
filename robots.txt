@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /falkeblik/
 
 Sitemap: https://www.keiserelectric.dk/sitemap.xml
