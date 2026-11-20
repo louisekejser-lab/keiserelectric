@@ -1,2 +1,1 @@
-// Skrives automatisk af start_online.sh i haandvaerkerblik. Ret ikke i hånden.
-window.FALKEBLIK_URL = "";
+window.FALKEBLIK_URL = "https://postage-declined-context-brief.trycloudflare.com";
