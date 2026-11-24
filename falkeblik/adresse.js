@@ -1,1 +1,1 @@
-window.FALKEBLIK_URL = "https://postage-declined-context-brief.trycloudflare.com";
+window.FALKEBLIK_URL = "https://left-observation-bundle-customized.trycloudflare.com";
