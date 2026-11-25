@@ -1,1 +1,1 @@
-window.FALKEBLIK_URL = "https://left-observation-bundle-customized.trycloudflare.com";
+window.FALKEBLIK_URL = "https://charity-sword-when-suitable.trycloudflare.com";
