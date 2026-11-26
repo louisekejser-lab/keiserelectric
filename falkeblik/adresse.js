@@ -1,1 +1,1 @@
-window.FALKEBLIK_URL = "https://matching-county-mozilla-earrings.trycloudflare.com";
+window.FALKEBLIK_URL = "https://data-clock-creek-sectors.trycloudflare.com";
