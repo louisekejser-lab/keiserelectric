@@ -1,1 +1,1 @@
-window.FALKEBLIK_URL = "https://prove-towards-min-foam.trycloudflare.com";
+window.FALKEBLIK_URL = "https://matching-county-mozilla-earrings.trycloudflare.com";
