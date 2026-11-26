@@ -1,1 +1,1 @@
-window.FALKEBLIK_URL = "https://charity-sword-when-suitable.trycloudflare.com";
+window.FALKEBLIK_URL = "https://prove-towards-min-foam.trycloudflare.com";
